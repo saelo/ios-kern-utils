@@ -1,0 +1,18 @@
+iOS Kernel Utilities
+====================
+
+Prerequisites
+-------------
+* Jailbroken Device
+* task_for_pid0 kernel patch applied (probably the case if jailbroken)
+* some way to compile iOS binaries (I use http://code.google.com/p/ios-toolchain-based-on-clang-for-linux/)
+
+Usage
+-----
+    toolname=NAME_OF_TOOL_TO_BE_BUILD
+    cd $toolname
+    make
+    make install IPHONE_IP=xxx.xxx.xxx.xxx
+    ssh root@xxx.xxx.xxx.xxx "/var/mobile/Home/$toolname"
+
+Beware, chances are the device will panic and reboot.
