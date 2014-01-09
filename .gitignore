@@ -1,2 +1,3 @@
 *.o
 kdump/kdump
+kmap/kmap
