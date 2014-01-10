@@ -3,9 +3,12 @@ PROJECTNAME:=kmap
 
 CC:=ios-clang
 
+INCDIR=../include
+
 CFLAGS += -objc-arc
 CFLAGS += -fblocks
 CFLAGS += -g0 -O2
+CFLAGS += -I $(INCDIR)
 
 SRCDIR=.
 OBJS+=$(patsubst %.m,%.o,$(wildcard $(SRCDIR)/*.m))
