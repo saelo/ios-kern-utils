@@ -6,6 +6,12 @@ Prerequisites
 * Jailbroken Device
 * task_for_pid0 kernel patch applied (probably the case if jailbroken)
 * some way to compile iOS binaries (I use http://code.google.com/p/ios-toolchain-based-on-clang-for-linux/)
+* ldid (http://gitweb.saurik.com/ldid.git), already included in the above toolchain
+
+Tools
+-----
+kdump - Tool to dump a running iOS kernel to a file
+kmap - Tool do visualize the kernel address space
 
 Usage
 -----
