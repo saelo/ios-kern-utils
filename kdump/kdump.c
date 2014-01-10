@@ -27,8 +27,9 @@ unsigned long get_kernel_base()
     vm_region_submap_info_data_64_t info;
     vm_size_t size;
     mach_msg_type_number_t info_count = VM_REGION_SUBMAP_INFO_COUNT_64;
-    unsigned int depth = 0;
-    vm_address_t addr = 0x81200000;         // lowest possible kernel base address
+    unsigned long depth = 0;
+    vm_address_t addr = 0xffffff81200000;         // lowest possible kernel base address
+                        
 
     printf("[*] retrieving kernel memory mappings...\n");
     while (1) {
@@ -41,7 +42,10 @@ unsigned long get_kernel_base()
         // the kernel maps more than a GB of RAM at the address where it maps
         // itself so we use that to detect it's position
         if (size > 1024*1024*512) {
-            return addr + 0x1000;       // kernel image is mapped at offset 0x1000
+            // return addr + 0x1000;       // kernel image is mapped at offset 0x1000
+            // in Xcode i have Kernel text base: 0xffffff8013c02000 shouldn't it be then :
+            return addr + 0x2000;     
+
         }
 
         addr += size;
@@ -61,11 +65,11 @@ int main()
         return -1;
     }
 
-    unsigned int kbase = get_kernel_base();
+    unsigned long kbase = get_kernel_base();
     if (kbase == 0) {
         return -1;
     }
-    printf("[*] found kernel base at address 0x%08x\n", kbase);
+    printf("[*] found kernel base at address 0x%16lx\n", kbase);
 
     vm_size_t size;
     vm_offset_t va;
