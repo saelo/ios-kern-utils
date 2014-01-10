@@ -1,7 +1,7 @@
 /*
  * kdump.c - Kernel dumper code
  *
- * (c) 2014 Samuel Groß
+ * Copyright (c) 2014 Samuel Groß
  */
 
 #include <stdio.h>
@@ -40,10 +40,10 @@ vm_address_t get_kernel_base()
         if (ret != KERN_SUCCESS)
             break;
 
-        // the kernel maps more than a GB of RAM at the address where it maps
-        // itself so we use that to detect it's position
+        // the kernel maps over a GB of RAM at the address where it maps
+        // itself so we use that fact to detect it's position
         if (size > 1024*1024*1024)
-            return addr + 0x1000;       // kernel image is mapped at offset 0x1000
+            return addr + IMAGE_OFFSET;
 
         addr += size;
     }
