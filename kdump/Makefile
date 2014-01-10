@@ -3,9 +3,12 @@ PROJECTNAME:=kdump
 
 CC:=/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang  -arch arm64  -isysroot /Applications/Xcode51-DP2\ 2.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.1.sdk
 
+INCDIR=../include
+
 CFLAGS += -objc-arc
 CFLAGS += -fblocks
 CFLAGS += -g0 -O2
+CFLAGS += -I $(INCDIR)
 
 SRCDIR=.
 OBJS+=$(patsubst %.m,%.o,$(wildcard $(SRCDIR)/*.m))

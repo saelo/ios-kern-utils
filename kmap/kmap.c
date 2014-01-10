@@ -16,6 +16,8 @@
 #include <mach/host_priv.h>
 #include <mach/vm_map.h>
 
+#include <arch.h>
+
 int main()
 {
     kern_return_t ret;
@@ -23,7 +25,7 @@ int main()
 
     ret = task_for_pid(mach_task_self(), 0, &kernel_task);
     if (ret != KERN_SUCCESS) {
-        printf("[!] failed to get access to the kernel task");
+        printf("[!] failed to access the kernel task");
         return -1;
     }
 
@@ -39,9 +41,9 @@ int main()
     while (1) {
         // get next memory region
         ret = vm_region_recurse_64(kernel_task, &addr, &size, &depth, (vm_region_info_t)&info, &info_count);
-        if (ret != KERN_SUCCESS) {
+
+        if (ret != KERN_SUCCESS)
             break;
-        }
 
         // size
         scale = 'K';
@@ -59,10 +61,10 @@ int main()
         maxW = (info.max_protection) & VM_PROT_WRITE ? 'w' : '-';
         maxX = (info.max_protection) & VM_PROT_EXECUTE ? 'x' : '-';
 
-        printf("%08x-%08x [%5zu%c] %c%c%c/%c%c%c\n", 
-               addr, addr+size, displaysize, scale, 
-               curR, curW, curX, maxR, maxW, maxX); 
-        
+        printf(ADDR "-" ADDR " [%5zu%c] %c%c%c/%c%c%c\n",
+               addr, addr+size, displaysize, scale,
+               curR, curW, curX, maxR, maxW, maxX);
+
         addr += size;
     }
 
