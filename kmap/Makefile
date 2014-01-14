@@ -2,7 +2,10 @@ IPHONE_IP:=192.168.1.47
 PROJECTNAME:=kmap
 
 
-CC:=/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang  -arch arm64  -isysroot /Applications/Xcode51-DP2\ 2.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.1.sdk
+SYSROOT:=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk
+CC:=clang -arch arm64 -isysroot $(SYSROOT)
+LDID:=/Users/piotr/Documents/Projects/iphone/kernel/ldid/ldid
+
 # CC:=ios-clang
 
 INCDIR=../include
@@ -18,7 +21,7 @@ OBJS+=$(patsubst %.c,%.o,$(wildcard $(SRCDIR)/*.c))
 OBJS+=$(patsubst %.cpp,%.o,$(wildcard $(SRCDIR)/*.cpp))
 
 all:	$(PROJECTNAME)
-	/Users/piotr/Documents/Projects/iphone/kernel/ldid/ldid -Sent.xml $(PROJECTNAME)
+	$(LDID) -Sent.xml $(PROJECTNAME)
 
 $(PROJECTNAME):	$(OBJS)
 	$(CC) $(CFLAGS) $(LDFLAGS) $(filter %.o,$^) -o $@
