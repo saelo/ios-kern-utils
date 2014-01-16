@@ -1,3 +1,1 @@
-*.o
-kdump/kdump
-kmap/kmap
+build/*
