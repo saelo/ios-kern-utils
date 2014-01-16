@@ -43,7 +43,7 @@ vm_size_t read_kernel(vm_address_t addr, vm_size_t size, unsigned char* buf)
     return bytes_read;
 }
 
-vm_size_t write_kernel(vm_address_t addr, vm_size_t size, unsigned char* buf)
+vm_size_t write_kernel(vm_address_t addr, unsigned char* buf, vm_size_t size)
 {
     kern_return_t ret;
     task_t kernel_task;

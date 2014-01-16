@@ -13,7 +13,7 @@ endif()
 include_directories("${PROJECT_SOURCE_DIR}/libkern")
 add_subdirectory(libkern)
 
-set(TOOLS kdump kmap)
+set(TOOLS kdump kmap kpatch)
 foreach(tool ${TOOLS})
     message("preparing ${tool}")
     add_executable (${tool} ${tool}/${tool}.c)
