@@ -10,22 +10,21 @@
 #include <unistd.h>
 
 #include <mach/mach_init.h>
-#include <mach/mach_error.h>
-#include <mach/mach_traps.h>
 #include <mach/mach_types.h>
 #include <mach/host_priv.h>
 #include <mach/vm_map.h>
 
 #include <libkern.h>
 
-
-#define CHUNK_SIZE 0x500
+// just dump 20MB for now
+#define DUMP_SIZE 0x1400000
 
 int main()
 {
     kern_return_t ret;
     task_t kernel_task;
     vm_address_t kbase;
+    unsigned char* buf = malloc(DUMP_SIZE);     // buffer is too big for the stack...
 
     ret = task_for_pid(mach_task_self(), 0, &kernel_task);
     if (ret != KERN_SUCCESS) {
@@ -39,25 +38,14 @@ int main()
     }
     printf("[*] found kernel base at address 0x" ADDR "\n", kbase);
 
-    vm_size_t size;
-    vm_address_t va;
-    unsigned char buf[CHUNK_SIZE];
-
     FILE *f = fopen("kernel.bin", "wb");
 
     printf("[*] now dumping the kernel image...\n");
-    for (va = kbase; va <= kbase + 0x1400000; va += CHUNK_SIZE) {
-        // we just dump 20MB here
-        size = CHUNK_SIZE;
-        ret = vm_read_overwrite(kernel_task, va, size, (vm_address_t)buf, &size);
-        if (ret != KERN_SUCCESS) {
-            printf("[!] failed to read memory, dump may be incomplete...\n");
-            break;
-        }
-        fwrite(buf, 1, size, f);
-    }
+    size_t size = read_kernel(kbase, DUMP_SIZE, buf);
+    fwrite(buf, 1, size, f);
 
-    printf("[*] done\n");
+    printf("[*] done, read 0x%lx bytes\n", size);
     fclose(f);
+    free(buf);
     return 0;
 }

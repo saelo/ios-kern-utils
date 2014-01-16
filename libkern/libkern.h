@@ -16,5 +16,15 @@
  */
 vm_address_t get_kernel_base();
 
+/*
+ * Read data from the kernel address space.
+ */
+vm_size_t read_kernel(vm_address_t addr, vm_size_t size, unsigned char* buf);
+
+/*
+ * Write data into the kernel address space.
+ */
+vm_size_t write_kernel(vm_address_t addr, vm_size_t size, unsigned char* buf);
+
 
 #endif
