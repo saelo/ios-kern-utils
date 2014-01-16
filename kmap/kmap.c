@@ -1,7 +1,7 @@
 /*
  * kmap.c - Display a listing of the kernel memory mappings.
  *
- * (c) 2014 Samuel Groß
+ * Copyright (c) 2014 Samuel Groß
  */
 
 #include <stdio.h>

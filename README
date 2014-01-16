@@ -13,12 +13,11 @@ Tools
 kdump - Tool to dump a running iOS kernel to a file
 kmap - Tool do visualize the kernel address space
 
-Usage
+Build
 -----
-    toolname=NAME_OF_TOOL_TO_BE_BUILD
-    cd $toolname
+    adapt toolchain-ios.cmake
+    cd build
+    cmake ../
     make
-    make install IPHONE_IP=xxx.xxx.xxx.xxx
-    ssh root@xxx.xxx.xxx.xxx "/var/mobile/Home/$toolname"
 
 Beware, chances are the device will panic and reboot.

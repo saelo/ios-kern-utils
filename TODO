@@ -1,0 +1,6 @@
+TODO
+====
+
+* reconstruct kernel mach-o file correctly (DATA + kexts sections)
+* add install target to deploy the binaries via ssh
+* figure out when additional offset of 0x200000 has to be applied
