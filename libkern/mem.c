@@ -4,6 +4,8 @@
  * Copyright (c) 2014 Samuel Groß
  */
 
+#include <stdlib.h>
+
 #include <mach/mach_types.h>
 #include <mach/mach_init.h>
 #include <mach/host_priv.h>
@@ -43,7 +45,7 @@ vm_size_t read_kernel(vm_address_t addr, vm_size_t size, unsigned char* buf)
     return bytes_read;
 }
 
-vm_size_t write_kernel(vm_address_t addr, unsigned char* buf, vm_size_t size)
+vm_size_t write_kernel(vm_address_t addr, unsigned char* data, vm_size_t size)
 {
     kern_return_t ret;
     task_t kernel_task;
@@ -59,7 +61,7 @@ vm_size_t write_kernel(vm_address_t addr, unsigned char* buf, vm_size_t size)
     while (addr < end) {
         size = remainder > MAX_CHUNK_SIZE ? MAX_CHUNK_SIZE : remainder;
 
-        ret = vm_write(kernel_task, addr, (vm_offset_t)(buf + bytes_written), size);
+        ret = vm_write(kernel_task, addr, (vm_offset_t)(data + bytes_written), size);
         if (ret != KERN_SUCCESS)
             break;
 
@@ -69,4 +71,21 @@ vm_size_t write_kernel(vm_address_t addr, unsigned char* buf, vm_size_t size)
     }
 
     return bytes_written;
+}
+
+vm_address_t find_bytes(vm_address_t start, vm_address_t end, unsigned char* bytes, size_t length)
+{
+    vm_address_t ret = 0;
+    unsigned char* buf = malloc(end - start);
+    if (buf) {
+        // TODO reading in chunks would probably be better
+        if (read_kernel(start, end - start, buf)) {
+            void* addr = memmem(buf, end - start, bytes, length);
+            if (addr)
+                ret = (vm_address_t)addr - (vm_address_t)buf + start;
+        }
+        free(buf);
+    }
+
+    return ret;
 }
