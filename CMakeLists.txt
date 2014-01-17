@@ -16,7 +16,7 @@ add_subdirectory(libkern)
 set(TOOLS kdump kmap kpatch)
 foreach(tool ${TOOLS})
     message("preparing ${tool}")
-    add_executable (${tool} ${tool}/${tool}.c)
+    add_executable (${tool} tools/${tool}.c)
     target_link_libraries(${tool} kern)
     add_custom_command(TARGET ${tool}
                 POST_BUILD
