@@ -10,8 +10,9 @@ Prerequisites
 
 Tools
 -----
-kdump - Tool to dump a running iOS kernel to a file
-kmap - Tool do visualize the kernel address space
+kdump  - Tool to dump a running iOS kernel to a file
+kmap   - Tool do visualize the kernel address space
+kpatch - Tool to apply patches to a running kernel
 
 Build
 -----
