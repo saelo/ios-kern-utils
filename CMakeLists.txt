@@ -1,5 +1,9 @@
 # set cross compiler options
-set(CMAKE_TOOLCHAIN_FILE toolchain-ios.cmake)
+if(APPLE)
+  set(CMAKE_TOOLCHAIN_FILE toolchain-ios-mac.cmake)
+else()
+  set(CMAKE_TOOLCHAIN_FILE toolchain-ios.cmake)
+endif()
 
 cmake_minimum_required (VERSION 2.6)
 project (iOS-Kernel-Utilities)
