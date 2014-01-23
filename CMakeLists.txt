@@ -17,7 +17,7 @@ endif()
 include_directories("${PROJECT_SOURCE_DIR}/libkern")
 add_subdirectory(libkern)
 
-set(TOOLS kdump kmap kpatch)
+set(TOOLS kdump kmap kmem kpatch)
 foreach(tool ${TOOLS})
     message("preparing ${tool}")
     add_executable (${tool} tools/${tool}.c)
