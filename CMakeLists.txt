@@ -1,8 +1,8 @@
 # set cross compiler options
 if(APPLE)
-  set(CMAKE_TOOLCHAIN_FILE toolchain-ios-mac.cmake)
+  set(CMAKE_TOOLCHAIN_FILE toolchain/mac.cmake)
 else()
-  set(CMAKE_TOOLCHAIN_FILE toolchain-ios.cmake)
+  set(CMAKE_TOOLCHAIN_FILE toolchain/linux.cmake)
 endif()
 
 cmake_minimum_required (VERSION 2.6)
