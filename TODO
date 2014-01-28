@@ -4,3 +4,8 @@ TODO
 * reconstruct kernel mach-o file correctly (DATA + kexts sections)
 * add install target to deploy the binaries via ssh
 * figure out when additional offset of 0x200000 has to be applied
+* find_string, find_int, ...
+* kernel_allocate()
+* kernel_execute()
+    - implement by adding custom syscall
+* add support for loading dylibs into the kernel

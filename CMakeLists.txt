@@ -14,14 +14,14 @@ if(LDIDTool MATCHES ".*NOTFOUND")
     message(FATAL_ERROR "ldid not found, make sure it is installed and in $PATH")
 endif()
 
-include_directories("${PROJECT_SOURCE_DIR}/libkern")
-add_subdirectory(libkern)
+include_directories("${PROJECT_SOURCE_DIR}/lib/kernel")
+add_subdirectory(lib/kernel)
 
 set(TOOLS kdump kmap kmem kpatch)
 foreach(tool ${TOOLS})
     message("preparing ${tool}")
-    add_executable (${tool} tools/${tool}.c)
-    target_link_libraries(${tool} kern)
+    add_executable(${tool} tools/${tool}.c)
+    target_link_libraries(${tool} kernel)
     add_custom_command(TARGET ${tool}
                 POST_BUILD
                 COMMAND ${LDIDTool} "-S${PROJECT_SOURCE_DIR}/misc/ent.xml" ${tool})

@@ -15,6 +15,7 @@ set(CMAKE_CXX_COMPILER /opt/ios-toolchain/bin/ios-clang++)
 # This shouldn't have to be set, I'm assuming cmake
 # fails to detect the ar/ranlib executable from the iOS
 # toolchain... Hopefully there is a better fix for this
+# TODO check CMAKE_RANLIB variable
 set(RANLIB_PATH /opt/ios-toolchain/bin/arm-apple-darwin11-ranlib)
 
 # where is the target environment
