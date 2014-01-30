@@ -19,6 +19,10 @@
 #include <time.h>
 #endif
 
+#ifndef __unused
+  #define __unused
+#endif
+
 #define swap32 __builtin_bswap32
 #define SWAP32(x) ((typeof(x)) swap32((uint32_t) (x)))
 

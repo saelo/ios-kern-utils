@@ -32,9 +32,9 @@ struct data_sym {
 
 struct binary {
     bool valid;
-    
+
     struct data_segment *segments;
-    uint32_t nsegments; 
+    uint32_t nsegments;
 
     cpu_type_t cpusubtype;
     cpu_type_t cputype;
@@ -46,7 +46,7 @@ struct binary {
     uint32_t reserved[8];
 
     uint32_t last_seg;
-    
+
     struct binary *reexports;
     unsigned int nreexports;
 

@@ -258,7 +258,7 @@ static addr_t sym_nlist(const struct binary *binary, const char *name, int optio
 
     for(unsigned int i = 0; i < binary->nreexports; i++) {
         addr_t result;
-        if(result = b_sym(&binary->reexports[i], name, options)) {
+        if((result = b_sym(&binary->reexports[i], name, options))) {
             return result;
         }
     }

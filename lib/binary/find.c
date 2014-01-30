@@ -76,7 +76,7 @@ static addr_t find_data_raw(range_t range, int16_t *buf, ssize_t pattern_size, s
         /* otherwise, keep searching to make sure we won't find it again */ \
         keep_going: \
         cursor += shift;
-    
+
     uint8_t jump;
 
     while(1) {
@@ -118,7 +118,7 @@ static void parse_pattern(const char *to_find, int16_t buf[128], ssize_t *patter
     while(to_find_) {
         char *bit = strsep(&to_find_, " ");
         if(!strcmp(bit, "-")) {
-            *offset = *pattern_size; 
+            *offset = *pattern_size;
             continue;
         } else if(!strcmp(bit, "+")) {
             *offset = *pattern_size + 1;
@@ -207,7 +207,7 @@ addr_t find_bof(range_t range, addr_t eof, int is_thumb) {
 }
 
 uint32_t resolve_ldr(const struct binary *binary, addr_t addr) {
-    uint32_t val = b_read32(binary, addr & ~1); 
+    uint32_t val = b_read32(binary, addr & ~1);
     addr_t target;
     if(addr & 1) {
         addr_t base = ((addr + 3) & ~3);
@@ -390,7 +390,7 @@ static uint16_t findmany_recurse(const struct findmany *restrict fm, struct find
 
     fm2->nodes = realloc(fm2->nodes, fm2->node_count * sizeof(struct node));
     struct node *nodep = &fm2->nodes[node];
-    
+
     nodep->terminates = 0;
     for(int p = 0; p < fm->num_patterns; p++) {
         if(cur_index_path[p] == fm->patterns[p].pattern_size) {
@@ -413,7 +413,7 @@ static uint16_t findmany_recurse(const struct findmany *restrict fm, struct find
                 if(comp == -1 || comp == chr) {
                     idx++;
                 } else {
-                    idx = 0;    
+                    idx = 0;
                 }
                 new_index_path[p] = idx;
                 orr |= idx;
@@ -463,11 +463,11 @@ void findmany_go(struct findmany *fm) {
             }
         }
     }
-    
+
     free(fm2.index_paths); // could be done earlier
     free(fm2.nodes);
     free(fm2.nodes2);
-    
+
     for(int p = 0; p < fm->num_patterns; p++) {
         struct pattern *pat = &fm->patterns[p];
         if(!*pat->result) {

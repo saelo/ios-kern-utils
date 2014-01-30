@@ -14,10 +14,13 @@ if(LDIDTool MATCHES ".*NOTFOUND")
     message(FATAL_ERROR "ldid not found, make sure it is installed and in $PATH")
 endif()
 
+# build libraries
 include_directories("${PROJECT_SOURCE_DIR}/lib/kernel")
+include_directories("${PROJECT_SOURCE_DIR}/lib/binary")
 add_subdirectory(lib/kernel)
-add_subdirectory(kcode)
+add_subdirectory(lib/binary)
 
+# build tools
 set(TOOLS kdump kmap kmem kpatch)
 foreach(tool ${TOOLS})
     message("preparing ${tool}")
