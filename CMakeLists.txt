@@ -5,8 +5,8 @@ else()
   set(CMAKE_TOOLCHAIN_FILE toolchain/linux.cmake)
 endif()
 
-cmake_minimum_required (VERSION 2.6)
-project (iOS-Kernel-Utilities)
+cmake_minimum_required(VERSION 2.6)
+project(iOS-Kernel-Utilities)
 
 # need ldid to sign the binaries and add the entitlements
 find_program(LDIDTool ldid)

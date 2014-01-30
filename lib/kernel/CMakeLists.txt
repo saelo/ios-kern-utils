@@ -1,4 +1,4 @@
-file (GLOB C_FILES *.c)
+file(GLOB C_FILES *.c)
 
 add_library(kernel STATIC ${C_FILES})
 # see toolchain-ios.cmake
