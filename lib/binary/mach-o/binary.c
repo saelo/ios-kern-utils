@@ -170,7 +170,7 @@ void b_prange_load_macho_nosyms(struct binary *binary, prange_t pr, size_t offse
         if(!nfat_arch) {
             die("fat file is empty");
         }
-        
+
         prange_t fat_pr = {NULL, 0}; /* no, gcc, it won't be used uninitialized */
         int highest_score = 0;
         while(nfat_arch--) {
@@ -251,7 +251,7 @@ static addr_t sym_nlist(const struct binary *binary, const char *name, int optio
         if(cmp == 0) {
             return ds.address;
         } else if(cmp > 0) {
-            base = pivot + 1; 
+            base = pivot + 1;
             n--;
         }
     }
@@ -356,7 +356,7 @@ static addr_t sym_imported(const struct binary *binary, const char *name, __unus
 
                     uint32_t indirect_table_offset = sect->reserved1;
                     uint32_t *indirect = rangeconv_off((range_t) {binary, (addr_t) (binary->mach->dysymtab->indirectsymoff + indirect_table_offset*sizeof(uint32_t)), (sect->size / 4) * sizeof(uint32_t)}, MUST_FIND).start;
-                    
+
                     for(uint32_t i = 0; i < sect->size / 4; i++) {
                         uint32_t sym = indirect[i];
                         if(sym == INDIRECT_SYMBOL_LOCAL || sym == INDIRECT_SYMBOL_ABS) continue;
@@ -471,4 +471,3 @@ const char *convert_lc_str(const struct load_command *cmd, uint32_t offset) {
     }
     return ret;
 }
-

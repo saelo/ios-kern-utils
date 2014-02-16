@@ -26,6 +26,7 @@ foreach(tool ${TOOLS})
     message("preparing ${tool}")
     add_executable(${tool} tools/${tool}.c)
     target_link_libraries(${tool} kernel)
+    target_link_libraries(${tool} binary)
     add_custom_command(TARGET ${tool}
                 POST_BUILD
                 COMMAND ${LDIDTool} "-S${PROJECT_SOURCE_DIR}/misc/ent.xml" ${tool})

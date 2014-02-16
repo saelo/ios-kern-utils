@@ -157,7 +157,7 @@ char *data_call_fini() {
 void _die(const char *fmt, ...) {
     va_list ap;
     va_start(ap, fmt);
-    
+
     if(call_going) {
         vsnprintf(call_error, sizeof(call_error), fmt, ap);
         longjmp(call_jmp, -1);

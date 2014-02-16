@@ -38,7 +38,7 @@ struct mach_binary {
     // this stuff is _all_ symbols...
     void *symtab; // either nlist or nlist_64
     uint32_t nsyms;
-    
+
     // for b_sym (external stuff)
     struct nlist *ext_symtab, *imp_symtab;
     uint32_t ext_nsyms, imp_nsyms;
@@ -72,5 +72,5 @@ void *b_macho_nth_symbol(const struct binary *binary, uint32_t n);
 addr_t b_macho_reloc_base(const struct binary *binary);
 
 const char *convert_lc_str(const struct load_command *cmd, uint32_t offset);
-__END_DECLS
 
+__END_DECLS
