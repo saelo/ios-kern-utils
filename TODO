@@ -1,7 +1,8 @@
 TODO
 ====
 
-* reconstruct kernel mach-o file correctly (DATA + kexts sections)
+* support 64bit ARM for kdump
+* (clear .bss in kernel image)
 * add install target to deploy the binaries via ssh
 * figure out when additional offset of 0x200000 has to be applied
 * find_string, find_int, ...
