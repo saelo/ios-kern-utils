@@ -4,7 +4,7 @@
 
 #define CMD_ITERATE(hdr, cmd) \
     for(struct load_command *cmd = \
-        (struct load_command *) ((uint32_t *) ((hdr) + 1) + (ADDR64 ? ((hdr)->magic & 1) : 0)), \
+        (struct load_command *) ((hdr) + 1), \
         *end = (struct load_command *) ((char *) cmd + (hdr)->sizeofcmds); \
         cmd < end; \
         cmd = (struct load_command *) ((char *) cmd + cmd->cmdsize))

@@ -17,7 +17,7 @@
 #include <libkern.h>
 #include <mach-o/binary.h>
 
-#define KERNEL_SIZE 0x1400000
+#define KERNEL_SIZE 0x1800000
 #define HEADER_SIZE 0x1000
 
 #define max(a, b) (a) > (b) ? (a) : (b)
@@ -29,11 +29,18 @@ int main()
     vm_address_t kbase;
     unsigned char buf[HEADER_SIZE];      // will hold the original mach-o header and load commands
     unsigned char header[HEADER_SIZE];   // header for the new mach-o file
-    unsigned char* binary;          // mach-o will be reconstructed in here
-    struct mach_header* orig_hdr = (struct mach_header*)buf;
-    struct mach_header* hdr = (struct mach_header*)header;
+    unsigned char* binary;               // mach-o will be reconstructed in here
     FILE* f;
     size_t filesize = 0;
+#if __LP64__
+    struct segment_command_64* seg;
+    struct mach_header_64* orig_hdr = (struct mach_header_64*)buf;
+    struct mach_header_64* hdr = (struct mach_header_64*)header;
+#else
+    struct segment_command* seg;
+    struct mach_header* orig_hdr = (struct mach_header*)buf;
+    struct mach_header* hdr = (struct mach_header*)header;
+#endif
 
     memset(header, 0, HEADER_SIZE);
 
@@ -50,11 +57,11 @@ int main()
     printf("[*] found kernel base at address 0x" ADDR "\n", kbase);
 
     f = fopen("kernel.bin", "wb");
-    binary = calloc(1, KERNEL_SIZE);
+    binary = calloc(1, KERNEL_SIZE);            // too large for the stack
 
     printf("[*] reading kernel header...\n");
     read_kernel(kbase, HEADER_SIZE, buf);
-    memcpy(hdr, orig_hdr, sizeof(struct mach_header));
+    memcpy(hdr, orig_hdr, sizeof(*hdr));
     hdr->ncmds = 0;
     hdr->sizeofcmds = 0;
 
@@ -71,8 +78,13 @@ int main()
     printf("[*] restoring segments...\n");
     CMD_ITERATE(orig_hdr, cmd) {
         switch(cmd->cmd) {
-        case LC_SEGMENT: {
-            struct segment_command* seg = (struct segment_command*)cmd;
+        case LC_SEGMENT:
+        case LC_SEGMENT_64: {
+            #if __LP64__
+            seg = (struct segment_command_64*)cmd;
+            #else
+            seg = (struct segment_command*)cmd;
+            #endif
             printf("[+] found segment %s\n", seg->segname);
             read_kernel(seg->vmaddr, seg->filesize, binary + seg->fileoff);
             filesize = max(filesize, seg->fileoff + seg->filesize);
@@ -82,7 +94,7 @@ int main()
         case 0x25:
         case 0x2a:
         case 0x26:
-            memcpy(header + sizeof(struct mach_header) + hdr->sizeofcmds, cmd, cmd->cmdsize);
+            memcpy(header + sizeof(*hdr) + hdr->sizeofcmds, cmd, cmd->cmdsize);
             hdr->sizeofcmds += cmd->cmdsize;
             hdr->ncmds++;
             break;
@@ -90,7 +102,7 @@ int main()
     }
 
     // now replace the old header with the new one ...
-    memcpy(binary, header, sizeof(struct mach_header) + orig_hdr->sizeofcmds);
+    memcpy(binary, header, sizeof(*hdr) + orig_hdr->sizeofcmds);
 
     // ... and write the final binary to file
     fwrite(binary, filesize, 1, f);
